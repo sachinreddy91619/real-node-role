@@ -1,5 +1,4 @@
-//const jwt = require('jsonwebtoken');
-
+import express from 'express';
 import jwt from 'jsonwebtoken';
 // jwt: Refers to the JSON Web Token (JWT) library. It is used to create and verify tokens, which are often used for authentication and authorization.
 
@@ -17,8 +16,11 @@ export default (req, res, next) => {
   //an authorization header is in the format Bearer <token>, where Bearer is the first part, and the token is the second part.
 
 
+  // if the token is not there then reply with the error 
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
+
+  // verify the token 
   jwt.verify(token, process.env.JWT_SECRECT, (err, user) => {
     if (err) return res.status(403).json({ error: 'Forbidden' });
     console.log(user);
